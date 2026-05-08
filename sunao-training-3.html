@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>素直力トレーニング</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #1a0533 0%, #0d1a3a 50%, #0a2a1a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Georgia', serif;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.9; }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(60px) scale(0.8); opacity: 0; }
+      60% { opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    @keyframes flipCard {
+      0% { transform: rotateY(0deg) scale(1); }
+      50% { transform: rotateY(90deg) scale(1.05); }
+      100% { transform: rotateY(0deg) scale(1); }
+    }
+    @keyframes sparkle {
+      0% { transform: scale(0) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,180,100,0.3); }
+      50% { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,180,100,0.6); }
+    }
+    @keyframes glowText {
+      0%, 100% { text-shadow: 0 0 8px rgba(255,200,150,0.5); }
+      50% { text-shadow: 0 0 20px rgba(255,200,150,0.9); }
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      animation: twinkle ease-in-out infinite;
+    }
+
+    /* Title area */
+    #title-area {
+      text-align: center;
+      margin-bottom: 40px;
+      z-index: 1;
+      position: relative;
+    }
+    #mascot {
+      font-size: 32px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 12px #ffe066) drop-shadow(0 0 4px #ffb830);
+    }
+    #subtitle {
+      color: #7ee8a2;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      font-family: sans-serif;
+      text-shadow: 0 0 12px rgba(126,232,162,0.7);
+      margin-bottom: 4px;
+    }
+    #main-title {
+      color: #f5d9a8;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      animation: glowText 3s ease-in-out infinite;
+    }
+    #presenter {
+      margin-top: 10px;
+      font-size: 10px;
+      color: rgba(245, 217, 168, 0.45);
+      font-family: sans-serif;
+      letter-spacing: 0.18em;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Card area */
+    #card-area {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    /* Idle state */
+    #idle-view {
+      width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+    #card-back {
+      width: 200px;
+      height: 300px;
+      background: linear-gradient(135deg, #2d1055 0%, #1a0a3a 100%);
+      border: 1px solid rgba(255,180,100,0.3);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(100,50,180,0.4), inset 0 0 30px rgba(255,180,100,0.05);
+      transition: all 0.3s;
+      animation: pulse 3s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    #card-back .inner-border {
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(255,180,100,0.15);
+      border-radius: 10px;
+    }
+    #card-back .card-icon {
+      font-size: 40px;
+      opacity: 0.6;
+    }
+
+    /* Buttons */
+    .draw-btn {
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #8b4a0a, #c87820);
+      border: none;
+      color: #fff8e7;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(200,120,30,0.4);
+      font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    }
+    .draw-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,180,100,0.5);
+    }
+    .draw-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Drawing state */
+    #drawing-view {
+      width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #card-flipping {
+      width: 200px;
+      height: 300px;
+      background: linear-gradient(135deg, #2d1055 0%, #1a0a3a 100%);
+      border: 1px solid rgba(255,180,100,0.3);
+      border-radius: 16px;
+      animation: flipCard 0.9s ease-in-out forwards;
+      box-shadow: 0 0 50px rgba(255,180,100,0.3);
+    }
+
+    /* Flipped state */
+    #flipped-view {
+      animation: floatUp 0.5s ease-out forwards;
+      width: 100%;
+    }
+    #card-face {
+      background: linear-gradient(160deg, #fdf4e3 0%, #fff8ee 100%);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,180,100,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    #card-face .deco-border {
+      position: absolute;
+      top: 12px; left: 16px; right: 16px; bottom: 12px;
+      border: 1px solid rgba(150,100,50,0.15);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .suit-tl {
+      position: absolute;
+      top: 8px; left: 8px;
+      font-size: 16px;
+      opacity: 0.3;
+    }
+    .suit-br {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      font-size: 16px;
+      opacity: 0.3;
+      transform: rotate(180deg);
+    }
+
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: #a07040;
+      margin-bottom: 10px;
+      font-family: sans-serif;
+    }
+    #input-phrase {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    #input-text {
+      font-size: 20px;
+      color: #5a3a1a;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    #arrow {
+      text-align: center;
+      font-size: 20px;
+      color: #c87820;
+      margin-bottom: 24px;
+      opacity: 0.7;
+    }
+    #output-box {
+      background: linear-gradient(135deg, #fff3d4, #ffe8b0);
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+      border: 1px solid rgba(200,140,50,0.2);
+    }
+    #output-text {
+      font-size: 17px;
+      color: #3a2000;
+      line-height: 1.9;
+      font-weight: 500;
+    }
+    #card-number {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 11px;
+      color: #c0a070;
+      font-family: sans-serif;
+      letter-spacing: 0.1em;
+    }
+    #btn-area {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      background: #ffd97d;
+      border-radius: 50%;
+      animation: sparkle 0.8s ease-out forwards;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Copyright */
+    #copyright {
+      position: fixed;
+      bottom: 10px;
+      right: 14px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      font-family: sans-serif;
+      letter-spacing: 0.05em;
+      z-index: 100;
+      user-select: none;
+    }
+
+    .hidden { display: none !important; }
+
+.profile-section{
+  width:100%;
+  margin-top:48px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:32px 24px;
+}
+.profile-inner{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+}
+.profile-avatar-wrap{
+  position:relative;
+  flex-shrink:0;
+  width:88px;
+  height:88px;
+}
+.profile-avatar{
+  width:88px;
+  height:88px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(217,79,30,0.6);
+  display:block;
+  position:relative;
+  z-index:1;
+}
+.profile-avatar-fallback{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#D94F1E,#1A5FB8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:32px;
+  font-weight:700;
+  z-index:0;
+}
+.profile-body{ flex:1; }
+.profile-name{
+  font-size:22px;
+  font-weight:700;
+  color:white;
+  font-family:'Hiragino Mincho ProN','Yu Mincho',serif;
+  line-height:1.2;
+}
+.profile-school{
+  font-size:12px;
+  color:rgba(255,122,64,0.9);
+  margin-top:3px;
+  margin-bottom:12px;
+  letter-spacing:2px;
+}
+.profile-bio{
+  font-size:12px;
+  color:rgba(255,255,255,0.6);
+  line-height:1.9;
+  margin-bottom:16px;
+}
+.profile-ig-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 20px;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  border-radius:4px;
+  letter-spacing:1px;
+  transition:opacity 0.2s;
+}
+.profile-ig-btn:hover{ opacity:0.85; }
+@media(max-width:520px){
+  .profile-inner{flex-direction:column;align-items:center;text-align:center;}
+  .profile-ig-btn{width:100%;justify-content:center;}
+}
+
+/* ── REVIEWS SECTION ── */
+.reviews-section {
+  width: 100%;
+  margin-top: 48px;
+  margin-bottom: 80px;
+}
+.reviews-title {
+  font-family: 'Hiragino Mincho ProN','Yu Mincho',serif;
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.review-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.review-card {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,215,0,0.2);
+}
+.review-card img {
+  width: 100%;
+  display: block;
+}
+.reviews-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 16px 0;
+  text-align: center;
+  background: linear-gradient(135deg, #B8860B, #FFD700, #B8860B);
+  background-size: 200% 200%;
+  animation: gradShift 4s ease infinite;
+  color: #0F0F1A;
+  text-decoration: none;
+  font-family: 'Hiragino Mincho ProN','Yu Mincho',serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+}
+.reviews-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255,215,0,0.5);
+}
+@keyframes gradShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+
+/* ── NAV BUTTONS ── */
+.nav-section {
+  width: 100%;
+  max-width: 340px;
+  margin-top: 40px;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.nav-btn {
+  display: block;
+  text-decoration: none;
+  border-radius: 14px;
+  padding: 22px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.nav-btn-omikuji::before {
+  background: linear-gradient(135deg, rgba(255,140,40,0.08), rgba(80,180,255,0.08));
+}
+.nav-btn-sindan::before {
+  background: linear-gradient(135deg, rgba(255,140,40,0.08), rgba(80,180,255,0.08));
+}
+.nav-btn:hover::before { opacity: 1; }
+.nav-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,200,100,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.nav-btn:active { transform: translateY(0); }
+
+.nav-btn-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+.nav-btn-emoji {
+  font-size: 30px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.nav-btn-title {
+  font-family: 'Hiragino Mincho ProN','Yu Mincho',serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: linear-gradient(90deg, #FFD700, #FFA040, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-btn-sub {
+  font-size: 11px;
+  font-family: sans-serif;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.nav-btn-go {
+  display: inline-block;
+  padding: 9px 0;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: white;
+  background: linear-gradient(135deg, #c87820, #4aa8e0);
+  position: relative;
+  z-index: 1;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Background stars (generated by JS) -->
+  <div id="stars"></div>
+
+  <!-- Title -->
+  <div id="title-area">
+    <div id="mascot">ᕙ( 'ᾥ' )ᕗ</div>
+    <div id="subtitle">生きやすくなる</div>
+    <h1 id="main-title">素直力トレーニング</h1>
+    <div id="presenter">心体調整塾<br>Takechan Presents</div>
+  </div>
+
+  <!-- Card area -->
+  <div id="card-area">
+
+    <!-- Idle -->
+    <div id="idle-view">
+      <div id="card-back" onclick="drawCard()">
+        <div class="inner-border"></div>
+        <div class="card-icon">🂠</div>
+      </div>
+      <button class="draw-btn" onclick="drawCard()">カードを引く</button>
+    </div>
+
+    <!-- Drawing -->
+    <div id="drawing-view" class="hidden">
+      <div id="card-flipping"></div>
+    </div>
+
+    <!-- Flipped -->
+    <div id="flipped-view" class="hidden">
+      <div id="card-face">
+        <div class="deco-border"></div>
+        <div class="suit-tl" id="suit-tl"></div>
+        <div class="suit-br" id="suit-br"></div>
+
+        <div id="input-phrase">
+          <div class="label">つい言ってしまう言葉</div>
+          <div id="input-text"></div>
+        </div>
+
+        <div id="arrow" class="hidden">↓</div>
+
+        <div id="output-box" class="hidden">
+          <div class="label">素直に言うと</div>
+          <div id="output-text"></div>
+        </div>
+
+        <div id="card-number"></div>
+      </div>
+      <div id="btn-area">
+        <button class="draw-btn" id="reveal-btn" onclick="revealOutput()">素直に言うと･･</button>
+        <button class="draw-btn" id="next-btn" onclick="drawCard()" style="display:none;">次のカードを引く</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Profile -->
+  <div class="profile-section" style="max-width:340px;">
+    <div class="profile-inner">
+      <div class="profile-avatar-wrap">
+        <img class="profile-avatar" src="https://kamimikuji.pages.dev/P.jpg" alt="たけちゃん" onerror="this.style.display='none'"/>
+        <div class="profile-avatar-fallback">た</div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-name">たけちゃん</div>
+        <div class="profile-school">心体調整塾</div>
+        <div class="profile-bio">
+          自身の病気や怪我と向き合うことから心と体のつながりに興味を持つ。<br><br>
+          人間のメンタル構造について長年研究中。<br><br>
+          □ 水泳・拳法・テコンドーで優勝。<br>
+          □ 理工学系大学院修了。<br>
+          □ 食品製造・エネルギー・防災設備関連の元技術者。<br>
+          □ これまで多数の人生の相談にのっている。
+        </div>
+        <p style="font-size:12px;letter-spacing:2px;color:rgba(255,255,255,0.45);margin-bottom:10px;">Instagramをフォローする</p>
+        <a class="profile-ig-btn" href="https://www.instagram.com/aitakeshi485" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @aitakeshi485
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 感想セクション -->
+  <div class="reviews-section" style="max-width:340px;">
+    <div class="reviews-title">今までにいただいた感想</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <img src="https://kamimikuji.pages.dev/A.jpg" alt="感想1">
+      </div>
+      <div class="review-card">
+        <img src="https://kamimikuji.pages.dev/B.jpg" alt="感想2">
+      </div>
+      <div class="review-card">
+        <img src="https://kamimikuji.pages.dev/C.jpg" alt="感想3">
+      </div>
+      <div class="review-card">
+        <img src="https://kamimikuji.pages.dev/D.jpg" alt="感想4">
+      </div>
+    </div>
+    <a class="reviews-btn" href="https://note.com/ankantakeshi/n/nfd1009a46e94" target="_blank">
+      その他の感想はこちら ▶
+    </a>
+  </div>
+
+
+  <!-- Nav buttons -->
+  <div class="nav-section">
+    <a class="nav-btn nav-btn-omikuji" href="https://kamimikuji.pages.dev" target="_blank">
+      <div class="nav-btn-top">
+        <span class="nav-btn-emoji">🎋</span>
+        <span class="nav-btn-title">火水おみくじ</span>
+      </div>
+      <div class="nav-btn-sub">無料・登録不要</div>
+      <div class="nav-btn-go">開いてみる ›</div>
+    </a>
+    <a class="nav-btn nav-btn-sindan" href="https://kamisindan.pages.dev" target="_blank">
+      <div class="nav-btn-top">
+        <span class="nav-btn-emoji">🔥</span>
+        <span class="nav-btn-title">火水診断</span>
+        <span class="nav-btn-emoji">☔</span>
+      </div>
+      <div class="nav-btn-sub">12タイプ｜無料・登録不要</div>
+      <div class="nav-btn-go">診断してみる ›</div>
+    </a>
+  </div>
+
+  <!-- Copyright -->
+  <div id="copyright">©︎Takechan</div>
+
+  <script>
+    const cards = [
+      { id: 1, input: "なんで私ばっかり", output: "少し余裕なくなってるから助けてほしい" },
+      { id: 2, input: "もういい", output: "もっと気にかけてほしかった" },
+      { id: 3, input: "どうせ私のことなんてどうでもいいんでしょ", output: "私のこと、ちゃんと見てほしい" },
+      { id: 4, input: "別に、なんでもない", output: "うまく言葉にできないけど、ちょっとしんどい" },
+      { id: 5, input: "はあ…（ため息）", output: "今日少し疲れてて、話を聞いてもらえたら嬉しい" },
+      { id: 6, input: "どうせ無理だし", output: "失敗するのが怖くて、一歩踏み出せないでいる" },
+      { id: 7, input: "誰も分かってくれない", output: "分かってもらえなくて、孤独に感じてる" },
+      { id: 8, input: "勝手にすれば", output: "私の気持ちも聞いてほしかった" },
+      { id: 9, input: "別に頼まなくていい", output: "断られるのが怖くて、自分から言えない" },
+      { id: 10, input: "なんで気づかないの", output: "気づいてほしかったけど、言えてなかった。ごめんね" },
+      { id: 11, input: "もういやだ", output: "限界に近くて、少し休みたい" },
+      { id: 12, input: "どうでもいい", output: "本当はすごく気にしてる" },
+      { id: 13, input: "うるさい", output: "今、自分のことで頭がいっぱいで余裕がない" },
+      { id: 14, input: "なんで分かってくれないの", output: "伝え方が下手だったかもしれない。もう一度話したい" },
+      { id: 15, input: "ほっといて", output: "少し一人になる時間がほしい。でもそのあと話したい" },
+      { id: 16, input: "私が間違ってるってこと？", output: "否定されてるように感じて、怖くなってる" },
+      { id: 17, input: "どうせ忘れるんでしょ", output: "覚えていてもらえると嬉しい" },
+      { id: 18, input: "なんでいつもそうなの", output: "ずっと気になってたことを、ちゃんと話したい" },
+      { id: 19, input: "あなたには関係ない", output: "まだ言えるか自信がないけど、少し気になってることがある" },
+      { id: 20, input: "意味ない", output: "頑張っても変わらない気がして、くじけそう" },
+      { id: 21, input: "どうせ私が悪いんでしょ", output: "責められてる気がして、怖い" },
+      { id: 22, input: "ちゃんとやってる", output: "認めてもらえると、もっと頑張れる気がする" },
+      { id: 23, input: "感謝してよね", output: "頑張ってるのに気づいてほしくて、少し拗ねてる" },
+      { id: 24, input: "なんも言わなくていい", output: "何か言葉をかけてほしいけど、うまく求められない" },
+      { id: 25, input: "知らない", output: "正直よくわからなくて、混乱してる" },
+      { id: 26, input: "私のことは心配しなくていい", output: "心配してもらえると、本当は嬉しい" },
+      { id: 27, input: "もう話したくない", output: "今は感情的になってるから、少し落ち着いてから話したい" },
+      { id: 28, input: "あなたには無理だよ", output: "うまくいかなかったとき、傷つくのが怖い" },
+      { id: 29, input: "なんでそんなこと言うの", output: "その言葉、少し傷ついた" },
+      { id: 30, input: "普通そうするでしょ", output: "こうしてほしかったって言えばよかった" },
+      { id: 31, input: "別に楽しくない", output: "一緒に楽しめると思ってたから、少し残念だった" },
+      { id: 32, input: "どうして私ばかり我慢するの", output: "我慢してることを気づいてほしかった" },
+      { id: 33, input: "もう疲れた", output: "ずっと頑張ってきて、少し休みたい" },
+      { id: 34, input: "あなたには分からない", output: "うまく伝えられなくて、もどかしい" },
+      { id: 35, input: "無理に笑わなくていい", output: "本当のことを話してほしい" },
+      { id: 36, input: "怒ってない", output: "本当は少し怒ってる。でも言いにくかった" },
+      { id: 37, input: "もういいって言ってる", output: "まだ全然よくないけど、どう言えばいいか分からない" },
+      { id: 38, input: "関係ないじゃん", output: "実は少し関係あって、気になってる" },
+      { id: 39, input: "なんでいつも私が言わないといけないの", output: "気づいてくれると嬉しいって、伝えられてなかった" },
+      { id: 40, input: "勘違いしないで", output: "本当は…少し、気にしてた" },
+      { id: 41, input: "だから言ったじゃない", output: "不安が当たってしまって、怖かった" },
+      { id: 42, input: "どうすればいいの", output: "一人で考えるのに限界を感じて、一緒に考えてほしい" },
+      { id: 43, input: "こんなんじゃだめだ", output: "自分に自信がなくて、認めてほしい気持ちがある" },
+      { id: 44, input: "ほら、やっぱり", output: "失敗を恐れてたけど、予想通りになって複雑" },
+      { id: 45, input: "なんで私だけ", output: "不公平に感じていて、しんどい" },
+      { id: 46, input: "気にしてない", output: "すごく気にしてるけど、気にしてると思われたくない" },
+      { id: 47, input: "私のこと試してるの？", output: "信頼されてるか不安で、確認したかった" },
+      { id: 48, input: "意地悪", output: "その言葉や行動、すごく傷ついた" },
+      { id: 49, input: "どうせ変わらない", output: "変わってほしいけど、期待して裏切られるのが怖い" },
+      { id: 50, input: "もうどうにでもなれ", output: "頑張り続けることに疲れてしまった" },
+      { id: 51, input: "私が悪かったですよ", output: "認めたい気持ちはあるけど、まだ納得できてない部分もある" },
+      { id: 52, input: "こっちは必死なのに", output: "真剣に取り組んでるのを見てほしい" },
+      { id: 53, input: "あなたって本当に…", output: "うまく言葉にならないけど、もやもやしてる" },
+      { id: 54, input: "なんで連絡くれないの", output: "気にかけてほしくて、少し寂しかった" },
+      { id: 55, input: "いいよ、私がやるから", output: "手伝ってほしいけど、言い出せない" },
+      { id: 56, input: "もう信じない", output: "信じたいけど、また傷つくのが怖い" },
+      { id: 57, input: "なんか違う", output: "何かがずれてる感じがして、うまく言えないけどモヤっとしてる" },
+      { id: 58, input: "どうせ私には無理", output: "挑戦したいけど、自信が持てなくて怖い" },
+      { id: 59, input: "もういい、忘れて", output: "忘れてほしくないけど、どう頼めばいいか分からない" },
+      { id: 60, input: "別に嬉しくない", output: "本当はすごく嬉しかった。素直に言えなくてごめん" },
+    ];
+
+    const SUITS = ["🌙", "☀️", "🌸", "⭐"];
+
+    let isAnimating = false;
+
+    // Generate stars
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 30; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const big = i % 3 === 0;
+      star.style.width = (big ? 3 : 2) + 'px';
+      star.style.height = (big ? 3 : 2) + 'px';
+      star.style.top = (Math.sin(i * 137.5) * 50 + 50) + '%';
+      star.style.left = (Math.cos(i * 97.3) * 50 + 50) + '%';
+      star.style.animationDuration = (2 + (i % 4)) + 's';
+      star.style.animationDelay = (i * 0.3) + 's';
+      starsEl.appendChild(star);
+    }
+
+    function showPhase(phase) {
+      document.getElementById('idle-view').classList.toggle('hidden', phase !== 'idle');
+      document.getElementById('drawing-view').classList.toggle('hidden', phase !== 'drawing');
+      document.getElementById('flipped-view').classList.toggle('hidden', phase !== 'flipped');
+    }
+
+    function spawnSparkles() {
+      const area = document.getElementById('card-area');
+      const sparks = [];
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('div');
+        el.className = 'sparkle';
+        const size = 6 + Math.random() * 10;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.left = (30 + Math.random() * 40) + '%';
+        el.style.top = (20 + Math.random() * 60) + '%';
+        el.style.animationDelay = (Math.random() * 0.4) + 's';
+        area.appendChild(el);
+        sparks.push(el);
+      }
+      setTimeout(() => sparks.forEach(s => s.remove()), 1200);
+    }
+
+    function drawCard() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const picked = cards[Math.floor(Math.random() * cards.length)];
+      const suit = SUITS[picked.id % SUITS.length];
+
+      // Reset flip animation before showing (avoid hidden-element reflow issue)
+      const flipping = document.getElementById('card-flipping');
+      flipping.style.animation = 'none';
+
+      showPhase('drawing');
+
+      flipping.offsetHeight; // reflow after visible
+      flipping.style.animation = 'flipCard 0.9s ease-in-out forwards';
+
+      setTimeout(() => {
+        // Populate card
+        document.getElementById('suit-tl').textContent = suit;
+        document.getElementById('suit-br').textContent = suit;
+        document.getElementById('input-text').textContent = '「' + picked.input + '」';
+        document.getElementById('output-text').textContent = '「' + picked.output + '」';
+        document.getElementById('card-number').textContent = 'No. ' + picked.id;
+
+        // Hide output initially
+        document.getElementById('arrow').classList.add('hidden');
+        document.getElementById('output-box').classList.add('hidden');
+        document.getElementById('reveal-btn').style.display = '';
+        document.getElementById('next-btn').style.display = 'none';
+
+        // Reset float animation before showing
+        const flipped = document.getElementById('flipped-view');
+        flipped.style.animation = 'none';
+
+        showPhase('flipped');
+
+        flipped.offsetHeight; // reflow after visible
+        flipped.style.animation = 'floatUp 0.5s ease-out forwards';
+
+        spawnSparkles();
+        isAnimating = false;
+      }, 900);
+    }
+
+    function revealOutput() {
+      document.getElementById('arrow').classList.remove('hidden');
+      document.getElementById('output-box').classList.remove('hidden');
+      document.getElementById('reveal-btn').style.display = 'none';
+      document.getElementById('next-btn').style.display = '';
+      spawnSparkles();
+    }
+
+    function submitReview() {
+      const text = document.getElementById('review-text').value.trim();
+      if (!reviewStar && !text) {
+        document.getElementById('review-text').focus();
+        return;
+      }
+      // サンクスメッセージ表示
+      document.getElementById('review-text').style.display = 'none';
+      document.querySelector('.review-submit').style.display = 'none';
+      document.getElementById('review-thanks').style.display = 'block';
+    }
+    function shareInsta() {
+      const text = encodeURIComponent('素直力トレーニングやってみた🌙\n心体調整塾 @takechan\n#素直力トレーニング #心体調整塾');
+      navigator.clipboard.writeText(decodeURIComponent(text)).catch(()=>{});
+      window.open('https://www.instagram.com/', '_blank');
+    }
+    function shareX() {
+      const text = encodeURIComponent('素直力トレーニングやってみた🌙\nつい言ってしまう言葉を素直に変換するカード、刺さった…\n心体調整塾 たけちゃん\n#素直力トレーニング #心体調整塾');
+      window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
+    }
+
+    showPhase('idle');
+  </script>
+</body>
+</html>
