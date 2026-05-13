@@ -1,0 +1,23 @@
+{
+  "name": "Honest",
+  "short_name": "Honest",
+  "description": "素直力トレーニング / Honest Heart Training",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1a0533",
+  "theme_color": "#1a0533",
+  "icons": [
+    {
+      "src": "192oh.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "512oh.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
