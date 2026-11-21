@@ -16,7 +16,7 @@
 
   <!-- ===== SEO: Dynamic Title & Description (updated by JS on lang change) ===== -->
   <title>素直力トレーニング｜心体調整塾</title>
-  <meta name="description" content="ひーくんと みーちゃんと一緒に、感じたことを言葉にする練習。つい言っちゃう言葉を、本当の気持ちの言葉に言い換えるカード87枚。無料・登録不要。">
+  <meta name="description" content="本音が言えない人のための、気持ちを言葉にする練習。ひーくんと みーちゃんと一緒に、つい言っちゃう言葉を本当の気持ちに言い換えるカード87枚。無料・登録不要。">
   <meta name="keywords" content="素直力,トレーニング,コミュニケーション,心体調整塾,感情表現,言い換え,メンタル">
   <meta name="author" content="Takechan / 心体調整塾">
   <meta name="robots" content="index, follow">
@@ -54,7 +54,7 @@
 
   <!-- ===== OGP (updated dynamically by JS) ===== -->
   <meta property="og:title" content="素直力トレーニング｜心体調整塾">
-  <meta property="og:description" content="ひーくんと みーちゃんと一緒に、感じたことを言葉にする練習。つい言っちゃう言葉を、本当の気持ちの言葉に言い換えるカード87枚。無料・登録不要。">
+  <meta property="og:description" content="本音が言えない人のための、気持ちを言葉にする練習。ひーくんと みーちゃんと一緒に、つい言っちゃう言葉を本当の気持ちに言い換えるカード87枚。無料・登録不要。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://openhearttraining.pages.dev">
   <meta property="og:image" content="https://openhearttraining.pages.dev/ogp-v2.jpg">
@@ -67,7 +67,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@aitakeshi485">
   <meta name="twitter:title" content="素直力トレーニング｜心体調整塾">
-  <meta name="twitter:description" content="ひーくんと みーちゃんと一緒に、感じたことを言葉にする練習。つい言っちゃう言葉を、本当の気持ちの言葉に言い換えるカード87枚。無料・登録不要。">
+  <meta name="twitter:description" content="本音が言えない人のための、気持ちを言葉にする練習。ひーくんと みーちゃんと一緒に、つい言っちゃう言葉を本当の気持ちに言い換えるカード87枚。無料・登録不要。">
   <meta name="twitter:image" content="https://openhearttraining.pages.dev/ogp-v2.jpg">
 
   <!-- ===== Structured Data (JSON-LD) ===== -->
@@ -1471,6 +1471,15 @@ input[type="number"],input[type="text"]{min-height:48px;font-size:16px!important
 .profile-school{color:var(--fire)!important}
 .profile-avatar{border:3px solid var(--line)!important;background:#fff}
 a,button{touch-action:manipulation}
+
+  /* ── FAQ ── */
+  .faq-section{width:100%;max-width:340px;margin-top:40px}
+  .faq-title{font-size:19px;font-weight:700;color:#5b4632;text-align:center;margin-bottom:14px}
+  .faq-item{background:#ffffff;border:1.5px solid #f0ddc4;border-radius:14px;padding:14px 16px;margin-bottom:10px;text-align:left}
+  .faq-item summary{font-size:16px;font-weight:700;color:#5b4632;cursor:pointer;line-height:1.5}
+  .faq-a{font-size:16px;line-height:1.7;color:#7a6350;margin-top:8px}
+  .small-place-link{text-align:center;margin-top:30px;font-size:14px}
+  .small-place-link a{color:#b06a1e;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -1635,105 +1644,28 @@ a,button{touch-action:manipulation}
   <!-- Apps Accordion -->
   <div class="apps-accordion">
     <button class="apps-accordion-toggle" id="apps-toggle" onclick="toggleAppsAccordion()">
-      <span id="apps-accordion-label">その他の無料アプリを見てみる</span>
+      <span id="apps-accordion-label">ほかの小さな場所をのぞく</span>
       <span class="apps-accordion-arrow" id="apps-arrow">▼</span>
     </button>
     <div class="apps-accordion-body" id="apps-body">
-      <!-- ホームページ -->
-      <a class="app-link-btn app-link-btn-home" href="https://sintaichoseijyuku.pages.dev/" target="_blank">
+      <!-- 火育て塾 -->
+      <a class="app-link-btn app-link-btn-sindan" href="https://hisodate.pages.dev/" target="_blank">
         <div class="app-link-inner">
-          <span class="app-link-emoji">💃</span>
+          <span class="app-link-emoji">🔥</span>
           <div class="app-link-texts">
-            <div class="app-link-name" id="acc-home-title">心体調整塾 ホームページ</div>
-            <div class="app-link-sub" id="acc-home-sub">sintaichoseijyuku.pages.dev</div>
+            <div class="app-link-name" id="acc-hisodate-title">水女子のための火育て塾</div>
+            <div class="app-link-sub" id="acc-hisodate-sub">感じたことを、言葉にする学びの場</div>
           </div>
           <span class="app-link-arrow">›</span>
         </div>
       </a>
-      <!-- アプリまとめ -->
-      <a class="app-link-btn app-link-btn-litlink" href="https://lit.link/aitakeshi" target="_blank">
+      <!-- 集まれ水女子の森 -->
+      <a class="app-link-btn app-link-btn-senryu" href="https://mizujoshinomori.pages.dev/" target="_blank">
         <div class="app-link-inner">
-          <span class="app-link-emoji">🙋</span>
+          <span class="app-link-emoji">🌲</span>
           <div class="app-link-texts">
-            <div class="app-link-name" id="acc-litlink-title">アプリ全部まとめはこちら</div>
-            <div class="app-link-sub" id="acc-litlink-sub">lit.link/aitakeshi</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- ブログ JP -->
-      <a class="app-link-btn app-link-btn-litlink" href="https://note.com/ankantakeshi/n/n35922e3d5895" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🤫</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-blog-jp-title">🤫 素人おじさん奮闘記</div>
-            <div class="app-link-sub" id="acc-blog-jp-sub">アプリ開発秘話 (JP🇯🇵)</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- ブログ EN -->
-      <a class="app-link-btn app-link-btn-litlink" href="https://note.com/ankantakeshi/n/n5f5316a9f25c" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🤫</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-blog-en-title">🤫 Clueless Japanese Uncle</div>
-            <div class="app-link-sub" id="acc-blog-en-sub">App Dev Story (EN🌍)</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- Dragon Uncle -->
-      <a class="app-link-btn app-link-btn-omikuji" href="https://dragonuncle.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🐉🥸</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-dragon-title">ドラゴンおじさん 🐉🥸</div>
-            <div class="app-link-sub" id="acc-dragon-sub">一緒にお茶を 🍵</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- バカウケ5W1H -->
-      <a class="app-link-btn app-link-btn-5w1h" href="https://warainpic.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">ꉂ🤣</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-5w1h-title">バカウケ５Ｗ１Ｈ</div>
-            <div class="app-link-sub" id="acc-5w1h-sub">笑いのオリンピック 🏅</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- バカウケ川柳 -->
-      <a class="app-link-btn app-link-btn-senryu" href="https://bakaukesenryu.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🎋</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-senryu-title">バカウケ川柳</div>
-            <div class="app-link-sub" id="acc-senryu-sub">爆笑575ガチャ ꉂ🤣</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- メンタル ガチャあげ -->
-      <a class="app-link-btn app-link-btn-mentalgacha" href="https://mentalgachaup.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🤣</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-mentalgacha-title">メンタル ガチャあげ🤣⤴</div>
-            <div class="app-link-sub" id="acc-mentalgacha-sub">メンタルサプリの救世主！？</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- 火水おみくじ -->
-      <a class="app-link-btn app-link-btn-omikuji" href="https://kamimikuji.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🎋</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-omikuji-title">火水おみくじ</div>
-            <div class="app-link-sub" id="acc-omikuji-sub">自分らしく生きやすく 👍</div>
+            <div class="app-link-name" id="acc-mori-title">集まれ水女子の森</div>
+            <div class="app-link-sub" id="acc-mori-sub">静かにひと休みできる場所</div>
           </div>
           <span class="app-link-arrow">›</span>
         </div>
@@ -1749,42 +1681,30 @@ a,button{touch-action:manipulation}
           <span class="app-link-arrow">›</span>
         </div>
       </a>
-      <!-- 素直力トレーニング -->
-      <a class="app-link-btn app-link-btn-sunao" href="https://openhearttraining.pages.dev" target="_blank">
+      <!-- 火水絵本 -->
+      <a class="app-link-btn app-link-btn-litlink" href="https://kasuiehon.pages.dev/" target="_blank">
         <div class="app-link-inner">
-          <span class="app-link-emoji">☯️</span>
+          <span class="app-link-emoji">📖</span>
           <div class="app-link-texts">
-            <div class="app-link-name" id="acc-sunao-title">素直力トレーニング</div>
-            <div class="app-link-sub" id="acc-sunao-sub">人生を好転させる</div>
+            <div class="app-link-name" id="acc-ehon-title">火水絵本『ひーくんと みーちゃん』</div>
+            <div class="app-link-sub" id="acc-ehon-sub">言葉がとくいな子と、感じすぎる子の物語</div>
           </div>
           <span class="app-link-arrow">›</span>
         </div>
       </a>
-      <!-- バランストレーニング -->
-      <a class="app-link-btn app-link-btn-balance" href="https://balancetraning.pages.dev/" target="_blank">
+      <!-- たけちゃんリンク -->
+      <a class="app-link-btn app-link-btn-home" href="https://takechanlink.pages.dev/" target="_blank">
         <div class="app-link-inner">
-          <span class="app-link-emoji">⚖️</span>
+          <span class="app-link-emoji">🙋</span>
           <div class="app-link-texts">
-            <div class="app-link-name" id="acc-balance-title">言葉とメンタルのバランストレーニング</div>
-            <div class="app-link-sub" id="acc-balance-sub">balancetraning.pages.dev</div>
-          </div>
-          <span class="app-link-arrow">›</span>
-        </div>
-      </a>
-      <!-- 火水診断 -->
-      <a class="app-link-btn app-link-btn-sindan" href="https://kamisindan.pages.dev" target="_blank">
-        <div class="app-link-inner">
-          <span class="app-link-emoji">🔥☔</span>
-          <div class="app-link-texts">
-            <div class="app-link-name" id="acc-sindan-title">火水診断</div>
-            <div class="app-link-sub" id="acc-sindan-sub">12タイプ・キャラクター ✏💃</div>
+            <div class="app-link-name" id="acc-all-title">全部の窓口はこちら</div>
+            <div class="app-link-sub" id="acc-all-sub">たけちゃんリンク</div>
           </div>
           <span class="app-link-arrow">›</span>
         </div>
       </a>
     </div>
   </div>
-
   <!-- Share Accordion -->
   <div class="apps-accordion" id="share-accordion" style="margin-top:14px;">
     <button class="apps-accordion-toggle" id="share-toggle" onclick="toggleShareAccordion()">
@@ -1890,6 +1810,31 @@ a,button{touch-action:manipulation}
   </div>
 
 
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-title">よくある質問</div>
+    <details class="faq-item"><summary>素直力トレーニングとは何ですか？</summary><div class="faq-a">感じたことを言葉にする練習ができる、無料のカードトレーニングです。「つい言ってしまう言葉」を本当の気持ちの言葉に言い換えるカードが87枚あり、ひーくんと みーちゃんがお手伝いします。</div></details>
+    <details class="faq-item"><summary>本音が言えないのですが、どう練習すればいいですか？</summary><div class="faq-a">カードを1枚引くところから始められます。出てきた言い換えの例を見て、「自分の場合はどう言いたいか」を小さな言葉にしてみるのが練習です。うまく言おうとしなくて大丈夫です。</div></details>
+    <details class="faq-item"><summary>無料ですか？登録は必要ですか？</summary><div class="faq-a">無料で、登録も不要です。ブラウザで開いて、すぐにカードを引けます。</div></details>
+    <details class="faq-item"><summary>残した言葉や記録は、どこに保存されますか？</summary><div class="faq-a">お使いの端末のブラウザの中にだけ保存されます。サーバーなど外部に送信されることはありません。</div></details>
+    <details class="faq-item"><summary>どんな人におすすめですか？</summary><div class="faq-a">気持ちを言葉にするのが苦手な人、本音を飲み込んでしまいがちな人におすすめです。パートナーや家族に、気持ちをやさしく伝えたい人にも向いています。</div></details>
+  </div>
+  <div class="small-place-link"><a href="https://zangeforgive.pages.dev" target="_blank">もうひとつの小さな場所：ZANGE — 心の放流</a></div>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "素直力トレーニングとは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "感じたことを言葉にする練習ができる、無料のカードトレーニングです。「つい言ってしまう言葉」を本当の気持ちの言葉に言い換えるカードが87枚あり、ひーくんと みーちゃんがお手伝いします。"}},
+      {"@type": "Question", "name": "本音が言えないのですが、どう練習すればいいですか？", "acceptedAnswer": {"@type": "Answer", "text": "カードを1枚引くところから始められます。出てきた言い換えの例を見て、「自分の場合はどう言いたいか」を小さな言葉にしてみるのが練習です。うまく言おうとしなくて大丈夫です。"}},
+      {"@type": "Question", "name": "無料ですか？登録は必要ですか？", "acceptedAnswer": {"@type": "Answer", "text": "無料で、登録も不要です。ブラウザで開いて、すぐにカードを引けます。"}},
+      {"@type": "Question", "name": "残した言葉や記録は、どこに保存されますか？", "acceptedAnswer": {"@type": "Answer", "text": "お使いの端末のブラウザの中にだけ保存されます。サーバーなど外部に送信されることはありません。"}},
+      {"@type": "Question", "name": "どんな人におすすめですか？", "acceptedAnswer": {"@type": "Answer", "text": "気持ちを言葉にするのが苦手な人、本音を飲み込んでしまいがちな人におすすめです。パートナーや家族に、気持ちをやさしく伝えたい人にも向いています。"}}
+    ]
+  }
+  </script>
+
   <!-- Copyright -->
   <div id="copyright">©︎Takechan</div>
 
@@ -1934,7 +1879,7 @@ const i18n = {
     sindanGo: '診断してみる ›',
     zangeSub: '自分を許そう｜無料・登録不要',
     zangeGo: '開いてみる ›',
-    accToggle: 'その他の無料アプリを見てみる',
+    accToggle: 'ほかの小さな場所をのぞく',
     shareToggle: '友達におしえる',
     shareX: 'Xでシェア',
     shareThreads: 'Threadsでシェア',
@@ -1979,7 +1924,7 @@ const i18n = {
     // SEO
     htmlLang: 'ja',
     metaTitle: '素直力トレーニング｜心体調整塾',
-    metaDesc: 'ひーくんと みーちゃんと一緒に、感じたことを言葉にする練習。つい言っちゃう言葉を、本当の気持ちの言葉に言い換えるカード87枚。無料・登録不要。',
+    metaDesc: '本音が言えない人のための、気持ちを言葉にする練習。ひーくんと みーちゃんと一緒に、つい言っちゃう言葉を本当の気持ちに言い換えるカード87枚。無料・登録不要。',
     modeSeq: '📋 順番',
     modeRnd: '🎲 ランダム',
     favBtn: '心に響いたら残す',
